@@ -1,45 +1,69 @@
 const express = require('express')
-const CB = require('nodejieba')
-const version = '0.0.1'
-const testtext = process.env.CUT_TEXT || '欢迎使用微信云托管'
+const { init: initDB, User } = require('./db')
+
 const app = express()
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-try {
-  console.log(`【${version}】分词测试成功！`, CB.extract(testtext, 5))
-} catch (e) {
-  console.log(`【${version}】分词测试失败！`, e)
-}
-
-app.get('/', (req, res) => {
-  res.send('欢迎使用微信云托管！')
+app.get('/user', async (req, res) => {
+  try {
+    const list = await User.findAll();
+    res.send('用户列表：\n' + JSON.stringify(list))
+  } catch (e) {
+    res.status(500).send(e)
+  }
 })
 
-app.get('/cut', (req, res) => {
-  const { word } = req.query
-  console.log('GET搜索关键词：', word)
-  res.send({
-    keys: cut(word),
-    version
-  })
+app.post('/user', async (req, res) => {
+  const { name, age, phone, email } = req.body
+  try {
+    const user = await User.create({ name, age, phone, email })
+    res.send({ status: 'ok', id: user.id })
+  } catch (e) {
+    res.status(500).send(e)
+  }
 })
 
-app.post('/cut', async (req, res) => {
-  const { word } = req.body
-  console.log('POST搜索关键词：', word)
-  res.send({
-    keys: cut(word),
-    version
-  })
+app.delete('/user', async (req, res) => {
+  const { id } = req.query
+  if (id === undefined) {
+    res.status(400).send('`id` is required')
+  }
+  try {
+    const result = await User.destroy({
+      where: { id: Number(id) }
+    })
+    res.send({ status: 'ok', removed: result })
+  } catch (e) {
+    res.status(500).send(e)
+  }
 })
 
-function cut (word) {
-  return CB.extract(word || testtext, 10).map(item => item.word)
-}
+app.put('/user', async (req, res) => {
+  const { id } = req.query
+  if (id === undefined) {
+    res.status(400).send('`id` is required')
+  }
+  const { name, age, phone, email } = req.body
+  try {
+    const result = await User.update({ name, age, phone, email }, {
+      where: { id: Number(id) }
+    })
+    res.send({ status: 'ok', updated: result[0] })
+  } catch (e) {
+    res.status(500)
+    res.send(e)
+  }
+})
 
 const port = process.env.PORT || 3000
 
-app.listen(port, () => {
-  console.log(version, '启动成功', port)
-})
+async function bootstrap() {
+  await initDB()
+  app.listen(port, () => {
+    console.log('启动成功', port)
+  })
+}
+
+bootstrap();
+
