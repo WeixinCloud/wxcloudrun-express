@@ -1,2 +1,2 @@
 # wxcloudrun-express
-微信运托管 express 框架模版
+微信云托管 express 框架模版
