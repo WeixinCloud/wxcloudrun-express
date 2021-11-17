@@ -8,26 +8,23 @@ const {
 
 const sequelize = new Sequelize('nodejs_demo', MYSQL_USERNAME, MYSQL_PASSWORD, {
     host: MYSQL_ADDRESS,
-    dialect: 'mysql' /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
+    dialect: 'mysql'
 });
 
-const Todo = sequelize.define('Todo', {
-    // Model attributes are defined here
-    title: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    status: {
-        type: DataTypes.STRING,
+const Counter = sequelize.define('Counter', {
+    count: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1
     }
 });
 
 async function init() {
-    await Todo.sync({ alter: true })
+    await Counter.sync({ alter: true })
 }
 
 module.exports = {
     sequelize,
     init,
-    Todo
+    Counter
 }
