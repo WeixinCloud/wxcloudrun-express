@@ -1,62 +1,74 @@
 const express = require('express')
-const { init: initDB, User } = require('./db')
+const cors = require('cors')
+const { init: initDB, Todo } = require('./db')
 
 const app = express()
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
+app.use(cors())
 
-app.get('/user', async (req, res) => {
+app.get('/api/todos', async (req, res) => {
   try {
-    const list = await User.findAll();
-    res.send('用户列表：\n' + JSON.stringify(list))
+    const list = await Todo.findAll();
+    res.send({
+      code: 0,
+      data: list
+    })
   } catch (e) {
-    res.status(500).send(e)
+    res.status(500).send({
+      code: 1,
+      errorMsg: e.message
+    })
   }
 })
 
-app.post('/user', async (req, res) => {
-  const { name, age, phone, email } = req.body
+app.post('/api/todos', async (req, res) => {
+  const { title, status } = req.body
   try {
-    const user = await User.create({ name, age, phone, email })
-    res.send({ status: 'ok', id: user.id })
+    const todo = await Todo.create({ title, status })
+    res.send({
+      code: 0,
+      data: todo
+    })
   } catch (e) {
-    res.status(500).send(e)
+    res.status(500).send({
+      code: 1,
+      errorMsg: e.message
+    })
   }
 })
 
-app.delete('/user', async (req, res) => {
-  const { id } = req.query
-  if (id === undefined) {
-    res.status(400).send('`id` is required')
-  }
+app.delete('/api/todos/:id', async (req, res) => {
+  const { id } = req.params
   try {
-    const result = await User.destroy({
+    await Todo.destroy({
       where: { id: Number(id) }
     })
-    res.send({ status: 'ok', removed: result })
+    res.send({ code: 0 })
   } catch (e) {
-    res.status(500).send(e)
+    res.status(500).send({
+      code: 1,
+      errorMsg: e.message
+    })
   }
 })
 
-app.put('/user', async (req, res) => {
-  const { id } = req.query
-  if (id === undefined) {
-    res.status(400).send('`id` is required')
-  }
-  const { name, age, phone, email } = req.body
+app.put('/api/todos', async (req, res) => {
+  const { title, status, id } = req.body
   try {
-    const result = await User.update({ name, age, phone, email }, {
+    await Todo.update({ title, status }, {
       where: { id: Number(id) }
     })
-    res.send({ status: 'ok', updated: result[0] })
+    res.send({ code: 0 })
   } catch (e) {
-    res.status(500)
-    res.send(e)
+    res.status(500).send({
+      code: 1,
+      errorMsg: e.message
+    })
   }
 })
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 4000
 
 async function bootstrap() {
   await initDB()

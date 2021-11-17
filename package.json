@@ -9,6 +9,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "mysql2": "^2.3.2",
     "sequelize": "^6.8.0"

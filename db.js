@@ -11,29 +11,23 @@ const sequelize = new Sequelize('nodejs_demo', MYSQL_USERNAME, MYSQL_PASSWORD, {
     dialect: 'mysql' /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
 });
 
-const User = sequelize.define('User', {
+const Todo = sequelize.define('Todo', {
     // Model attributes are defined here
-    name: {
+    title: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    age: {
-        type: DataTypes.INTEGER,
-    },
-    email: {
-        type: DataTypes.STRING,
-    },
-    phone: {
+    status: {
         type: DataTypes.STRING,
     }
 });
 
 async function init() {
-    await User.sync({ alter: true })
+    await Todo.sync({ alter: true })
 }
 
 module.exports = {
     sequelize,
     init,
-    User
+    Todo
 }
