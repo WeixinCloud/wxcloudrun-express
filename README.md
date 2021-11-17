@@ -1,7 +1,9 @@
 # wxcloudrun-express
+
+
 微信云托管 Node.js Express 框架模版，实现简单的计数器读写接口，使用云托管 MySQL 读写、记录计数值。
 
-![](https://qcloudimg.tencent-cloud.cn/raw/b2e0019c9391193d0447cd15fea4b25f.png)
+![](https://qcloudimg.tencent-cloud.cn/raw/be22992d297d1b9a1a5365e606276781.png)
 
 
 
@@ -100,3 +102,7 @@ curl https://<云托管服务域名>/api/count
 ```
 curl -X POST -H 'content-type: application/json' -d '{"action": "inc"}' https://<云托管服务域名>/api/count
 ```
+
+## License
+
+[MIT](./LICENSE)

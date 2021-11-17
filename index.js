@@ -1,11 +1,15 @@
 const express = require('express')
 const cors = require('cors')
+const morgan = require('morgan')
 const { init: initDB, Counter } = require('./db')
+
+const logger = morgan('tiny')
 
 const app = express()
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(cors())
+app.use(logger)
 // todo: logger
 
 app.get('/', async (req, res) => {
@@ -17,7 +21,9 @@ app.post('/api/count', async (req, res) => {
   if (action === 'inc') {
     await Counter.create()
   } else if (action === 'clear') {
-    await Counter.xxx()
+    await Counter.destroy({
+      truncate: true
+    })
   }
   res.send({
     code: 0,
