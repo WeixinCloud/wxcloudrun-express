@@ -26,11 +26,13 @@
 ├── container.config.json
 ├── db.js
 ├── index.js
+├── index.html
 ├── package.json
 ```
 
 - `index.js`：项目入口，实现主要的读写 API
 - `db.js`：数据库相关实现，使用 `sequelize` 作为 ORM
+- `index.html`：首页代码
 - `package.json`：Node.js 项目定义文件
 - `container.config.json`：云托管部署配置文件
 - `Dockerfile`：容器配置文件
