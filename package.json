@@ -1,7 +1,7 @@
 {
-  "name": "cloudbase-fc",
+  "name": "wxcloudrun-express",
   "version": "1.0.0",
-  "description": "jiebafenci server",
+  "description": "微信云托管 express 框架模版",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
