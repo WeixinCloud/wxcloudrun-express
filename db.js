@@ -4,13 +4,15 @@ const { Sequelize, DataTypes } = require('sequelize');
 const {
     MYSQL_USERNAME,
     MYSQL_PASSWORD,
-    MYSQL_ADDRESS
+    MYSQL_ADDRESS = ''
 } = process.env
 
-// 建立数据库连接，初始化 ORM
+const [host, port] = MYSQL_ADDRESS.split(':')
+
 const sequelize = new Sequelize('nodejs_demo', MYSQL_USERNAME, MYSQL_PASSWORD, {
-    host: MYSQL_ADDRESS,
-    dialect: 'mysql'
+    host,
+    port,
+    dialect: 'mysql' /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
 });
 
 // 定义数据模型
