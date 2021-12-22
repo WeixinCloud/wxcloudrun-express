@@ -9,6 +9,10 @@ WORKDIR /app
 # 拷贝包管理文件
 COPY package*.json /app
 
+# npm 源
+RUN npm config set registry https://mirrors.cloud.tencent.com/npm/
+# RUN npm config set registry https://registry.npm.taobao.org/
+
 # npm 安装依赖
 RUN npm install
 
