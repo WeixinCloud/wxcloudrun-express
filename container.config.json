@@ -12,5 +12,8 @@
   "customLogs": "stdout",
   "initialDelaySeconds": 2,
   "dataBaseName": "nodejs_demo",
-  "executeSQLs": ["CREATE DATABASE IF NOT EXISTS nodejs_demo;", "USE nodejs_demo;"]
+  "executeSQLs": [
+    "CREATE DATABASE IF NOT EXISTS nodejs_demo;",
+    "USE nodejs_demo;"
+  ]
 }
