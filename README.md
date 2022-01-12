@@ -4,18 +4,13 @@
 ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/WeixinCloud/wxcloudrun-express/express)
 ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/WeixinCloud/wxcloudrun-express/sequelize)
 
-
 微信云托管 Node.js Express 框架模版，实现简单的计数器读写接口，使用云托管 MySQL 读写、记录计数值。
 
 ![](https://qcloudimg.tencent-cloud.cn/raw/be22992d297d1b9a1a5365e606276781.png)
 
-
-
 ## 快速开始
 
 前往 [微信云托管快速开始页面]()，选择相应语言的模板，根据引导完成部署。
-
-
 
 ## 项目结构说明
 
@@ -36,8 +31,6 @@
 - `package.json`：Node.js 项目定义文件
 - `container.config.json`：云托管部署配置文件
 - `Dockerfile`：容器配置文件
-
-
 
 ## 服务 API 文档
 
@@ -68,8 +61,6 @@
 ```
 curl https://<云托管服务域名>/api/count
 ```
-
-
 
 ### `POST /api/count`
 
