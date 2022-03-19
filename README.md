@@ -12,6 +12,9 @@
 
 前往 [微信云托管快速开始页面](https://cloud.weixin.qq.com/cloudrun/onekey)，选择相应语言的模板，根据引导完成部署。
 
+## 本地调试
+下载代码在本地调试，请参考[微信云托管本地调试指南](https://developers.weixin.qq.com/miniprogram/dev/wxcloudrun/src/guide/debug/)。
+
 ## 项目结构说明
 
 ```
@@ -29,7 +32,7 @@
 - `db.js`：数据库相关实现，使用 `sequelize` 作为 ORM
 - `index.html`：首页代码
 - `package.json`：Node.js 项目定义文件
-- `container.config.json`：云托管部署配置文件
+- `container.config.json`：模板部署「服务设置」初始化配置（二开请忽略）
 - `Dockerfile`：容器配置文件
 
 ## 服务 API 文档
