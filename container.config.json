@@ -7,7 +7,7 @@
   "dockerfilePath": "Dockerfile",
   "buildDir": "",
   "minNum": 0,
-  "maxNum": 10,
+  "maxNum": 5,
   "cpu": 1,
   "mem": 2,
   "policyType": "cpu",
