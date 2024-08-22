@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const { init: initDB, Counter } = require("./db");
-
+var request = require('request');
 const logger = morgan("tiny");
 
 const app = express();
@@ -40,6 +40,24 @@ app.get("/api/count", async (req, res) => {
     code: 0,
     data: result,
   });
+});
+// 获取计数
+app.get("/api/result", async (req, res) => {
+//   https://www.vigeotec.com/sh/query
+  let a ={
+    url:"https://www.vigeotec.com/sh/query",
+    form:{
+      position:req.position
+    }
+  }
+  request.post(a,function(error,res,body){
+     res.send({
+      code: 0,
+      data: res,
+    });
+  })
+//   const result = await Counter.count();
+ 
 });
 
 // 小程序调用，获取微信 Open ID
