@@ -1,61 +1,36 @@
-const path = require("path");
-const express = require("express");
-const cors = require("cors");
-const morgan = require("morgan");
-const { init: initDB, Counter } = require("./db");
+// 引入 express
+var express = require('express');
+var app = express();
 
-const logger = morgan("tiny");
+// 示例商品数据
+var products = [
+    { id: 1, name: "相机", price: 100, image: "https://raw.githubusercontent.com/dz77/rent_pic/refs/heads/main/wide300.png" },
+    { id: 2, name: "笔记本电脑", price: 200, image: "https://example.com/images/laptop.jpg" },
+    { id: 3, name: "自行车", price: 50, image: "https://example.com/images/bike.jpg" },
+];
 
-const app = express();
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(cors());
-app.use(logger);
-
-// 首页
-app.get("/", async (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+// 获取商品列表
+app.get('/products', function(req, res) {
+    res.json(products);
 });
 
-// 更新计数
-app.post("/api/count", async (req, res) => {
-  const { action } = req.body;
-  if (action === "inc") {
-    await Counter.create();
-  } else if (action === "clear") {
-    await Counter.destroy({
-      truncate: true,
+// 获取单个商品详情
+app.get('/products/:id', function(req, res) {
+    var productId = req.params.id;
+    var product = products.find(function(p) {
+        return p.id == productId;
     });
-  }
-  res.send({
-    code: 0,
-    data: await Counter.count(),
-  });
+    if (product) {
+        res.json(product);
+    } else {
+        res.status(404).send('商品未找到');
+    }
 });
 
-// 获取计数
-app.get("/api/count", async (req, res) => {
-  const result = await Counter.count();
-  res.send({
-    code: 0,
-    data: result,
-  });
+// 启动服务器
+var PORT = 3000;
+
+console.log("服务器即将启动...");
+app.listen(PORT, function() {
+    console.log('后端服务器运行在 http://localhost:' + PORT);
 });
-
-// 小程序调用，获取微信 Open ID
-app.get("/api/wx_openid", async (req, res) => {
-  if (req.headers["x-wx-source"]) {
-    res.send(req.headers["x-wx-openid"]);
-  }
-});
-
-const port = process.env.PORT || 80;
-
-async function bootstrap() {
-  await initDB();
-  app.listen(port, () => {
-    console.log("启动成功", port);
-  });
-}
-
-bootstrap();
